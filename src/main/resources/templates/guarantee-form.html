@@ -166,7 +166,7 @@
             </div>
             <div class="form-right">
                 <label>BG Number:</label>
-                <label for="bgNumber"></label><input type="text" id="bgNumber" required>
+                <label for="bgNumber"></label><input type="text" id="bgNumber" required oninput = "convertToUpperCase(this)">
                 <div class="error" id="bgNumberError"></div>
             </div>
             <div class="cls"></div>
@@ -191,11 +191,11 @@
         <div class="form-div">
             <div class="form-left">
                 <label for="vendor">Vendor:</label>
-                <input type="text" id="vendor" name="vendor" required>
+                <input type="text" id="vendor" name="vendor" required oninput = "convertToUpperCase(this)">
             </div>
             <div class="form-right">
                 <label for="poWoNumber">PO/WO Number:</label>
-                <input type="text" id="poWoNumber" name="poWoNumber" required>
+                <input type="text" id="poWoNumber" name="poWoNumber" required oninput = "convertToUpperCase(this)">
             </div>
         </div>
 
@@ -206,7 +206,7 @@
             </div>
             <div class="form-right">
                 <label>Nature of Supply:</label>
-                <label for="natureOfSupply"></label><input type="text" id="natureOfSupply" required>
+                <label for="natureOfSupply"></label><input type="text" id="natureOfSupply" required oninput = "convertToUpperCase(this)">
                 <div class="error" id="natureOfSupplyError"></div>
             </div>
             <div class="cls"></div>
@@ -322,61 +322,66 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    // Restricting future dates for date fields
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('entryDate').setAttribute('max', today);
+    //Automatically convert input to uppercase in real-time
+    function convertToUpperCase(input) {
+    input.value = input.value.toUpperCase();
+    }
 
-    // Alphanumeric validation for multiple fields
-    const alphaNumFields = ['bgNumber', 'vendor', 'poWoNumber', 'natureOfSupply'];
+document.addEventListener('DOMContentLoaded', function () {
+// Restricting future dates for date fields
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('entryDate').setAttribute('max', today);
 
-    alphaNumFields.forEach((fieldId) => {
-        document.getElementById(fieldId).addEventListener('input', function () {
-            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
-        });
+// Alphanumeric validation for multiple fields
+const alphaNumFields = ['bgNumber', 'vendor', 'poWoNumber', 'natureOfSupply'];
+
+alphaNumFields.forEach((fieldId) => {
+    document.getElementById(fieldId).addEventListener('input', function () {
+        this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
     });
+});
 
-    // Amount validation (digits and single dot only)
-    document.getElementById('amount').addEventListener('input', function () {
-        this.value = this.value.replace(/[^0-9.]/g, '');
-        const dotCount = (this.value.match(/\./g) || []).length;
-        if (dotCount > 1) {
-            this.value = this.value.slice(0, this.value.lastIndexOf('.'));
-        }
-    });
+// Amount validation (digits and single dot only)
+document.getElementById('amount').addEventListener('input', function () {
+    this.value = this.value.replace(/[^0-9.]/g, '');
+    const dotCount = (this.value.match(/\./g) || []).length;
+    if (dotCount > 1) {
+        this.value = this.value.slice(0, this.value.lastIndexOf('.'));
+    }
+});
 
 });
-        // Form validation function before submission
-        function validateForm() {
-            const fields = document.querySelectorAll('input, select');
+    // Form validation function before submission
+    function validateForm() {
+        const fields = document.querySelectorAll('input, select');
 
-            for (const field of fields) {
-                if (!field.value) {
-                    alert(`Please fill in the ${field.name} field.`);
-                    return false;
-                }
+        for (const field of fields) {
+            if (!field.value) {
+                alert(`Please fill in the ${field.name} field.`);
+                return false;
             }
-            return true;
         }
+        return true;
+    }
 async function submitForm(event) {
 event.preventDefault();
 
 const formData = {
-    entryDate: document.getElementById('entryDate').value,
-    bgNumber: document.getElementById('bgNumber').value.replace(/[^a-zA-Z0-9]/g, ''),
-    bgDate: document.getElementById('bgDate').value,
-    typeOfBg: document.getElementById('typeOfBg').value,
-    vendor: document.getElementById('vendor').value.replace(/[^a-zA-Z0-9]/g, ''),
-    poWoNumber: document.getElementById('poWoNumber').value.replace(/[^a-zA-Z0-9]/g, ''),
-    poWoDate: document.getElementById('poWoDate').value,
-    natureOfSupply: document.getElementById('natureOfSupply').value.replace(/[^a-zA-Z0-9]/g, ''),
-    receivedDate: document.getElementById('receivedDate').value,
-    receivedFromDept: document.getElementById('receivedFromDept').value,
-    bankName: document.getElementById('bankName').value,
-    amount: document.getElementById('amount').value.replace(/[^0-9.]/g, ''),
-    currency: document.getElementById('currency').value,
-    claimDate: document.getElementById('claimDate').value,
-    validityDate: document.getElementById('validityDate').value
+entryDate: document.getElementById('entryDate').value,
+bgNumber: document.getElementById('bgNumber').value.replace(/[^a-zA-Z0-9]/g, ''),
+bgDate: document.getElementById('bgDate').value,
+typeOfBg: document.getElementById('typeOfBg').value,
+vendor: document.getElementById('vendor').value.replace(/[^a-zA-Z0-9]/g, ''),
+poWoNumber: document.getElementById('poWoNumber').value.replace(/[^a-zA-Z0-9]/g, ''),
+poWoDate: document.getElementById('poWoDate').value,
+natureOfSupply: document.getElementById('natureOfSupply').value.replace(/[^a-zA-Z0-9]/g, ''),
+receivedDate: document.getElementById('receivedDate').value,
+receivedFromDept: document.getElementById('receivedFromDept').value,
+bankName: document.getElementById('bankName').value,
+amount: document.getElementById('amount').value.replace(/[^0-9.]/g, ''),
+currency: document.getElementById('currency').value,
+claimDate: document.getElementById('claimDate').value,
+validityDate: document.getElementById('validityDate').value
 };
 
 const spinner = document.getElementById('spinner');
@@ -385,18 +390,18 @@ const responseMessage = document.getElementById('responseMessage');
 spinner.style.display = 'block';
 
 try {
-    const response = await fetch('http://localhost:8086/api/bg/submit-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-    });
+const response = await fetch('http://localhost:8086/api/bg/submit-form', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+});
 
-    spinner.style.display = 'none';
+spinner.style.display = 'none';
 
-    responseMessage.innerHTML = response.ok ? 'Form submitted successfully!' : 'Failed to submit form!';
+responseMessage.innerHTML = response.ok ? 'Form submitted successfully!' : 'Failed to submit form!';
 } catch (error) {
-    responseMessage.innerHTML = 'Error occurred!';
-    spinner.style.display = 'none';
+responseMessage.innerHTML = 'Error occurred!';
+spinner.style.display = 'none';
 }
 }
 </script>

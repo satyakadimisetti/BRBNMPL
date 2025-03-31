@@ -103,7 +103,7 @@
                 <label>BG Number:</label>
             </div>
             <div class="form-right">
-                <label for="bgNumber"></label><input type="text" id="bgNumber" required>
+                <label for="bgNumber"></label><input type="text" id="bgNumber" required oninput = "convertToUpperCase(this)">
             </div>
             <div class="cls"></div>
         </div>
@@ -146,47 +146,52 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('bgNumber').addEventListener('input', function () {
-         this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
-       });
-    });
+    //Automatically convert input to uppercase in real-time
+    function convertToUpperCase(input) {
+    input.value = input.value.toUpperCase();
+    }
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('bgNumber').addEventListener('input', function () {
+     this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+   });
+});
 
 document.getElementById('closureForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+event.preventDefault();
 
-    const bgNumber = document.getElementById('bgNumber').value;
-    const returnedDate = document.getElementById('returnedDate').value;
-    const returnedToDept = document.getElementById('returnedToDept').value;
-    const status = document.getElementById('status').value;
+const bgNumber = document.getElementById('bgNumber').value;
+const returnedDate = document.getElementById('returnedDate').value;
+const returnedToDept = document.getElementById('returnedToDept').value;
+const status = document.getElementById('status').value;
 
-    const data = {
-        bgNumber,
-        returnedDate,
-        returnedToDept,
-        status
-    };
+const data = {
+    bgNumber,
+    returnedDate,
+    returnedToDept,
+    status
+};
 
-    fetch('http://localhost:8086/api/bg/updateBgClosure', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to update Closure');
-        }
-        return response.text();   // <-- Handle plain text response
-    })
-    .then(result => {
-        alert(result);  // Display the "Updated Successfully" message
-    })
-    .catch(error => {
-        alert('Error updating Closure');
-        console.error(error);
-    });
+fetch('http://localhost:8086/api/bg/updateBgClosure', {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Failed to update Closure');
+    }
+    return response.text();   // <-- Handle plain text response
+})
+.then(result => {
+    alert(result);  // Display the "Updated Successfully" message
+})
+.catch(error => {
+    alert('Error updating Closure');
+    console.error(error);
+});
 });
 </script>
 

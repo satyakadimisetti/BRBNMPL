@@ -105,7 +105,7 @@
                 <label>BG Number:</label>
             </div>
             <div class="form-right">
-                <label for="bgNumber"></label><input type="text" id="bgNumber" required>
+                <label for="bgNumber"></label><input type="text" id="bgNumber" required oninput = "convertToUpperCase(this)">
             </div>
             <div class="cls"></div>
         </div>
@@ -136,45 +136,51 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('bgNumber').addEventListener('input', function () {
-         this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
-       });
-    });
+    //Automatically convert input to uppercase in real-time
+    function convertToUpperCase(input) {
+    input.value = input.value.toUpperCase();
+    }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('bgNumber').addEventListener('input', function () {
+     this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+   });
+});
 
 document.getElementById('amendmentForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+event.preventDefault();
 
-    const bgNumber = document.getElementById('bgNumber').value;
-    const amendmentValidityDate = document.getElementById('amendmentValidityDate').value;
-    const amendmentClaimDate = document.getElementById('amendmentClaimDate').value;
+const bgNumber = document.getElementById('bgNumber').value;
+const amendmentValidityDate = document.getElementById('amendmentValidityDate').value;
+const amendmentClaimDate = document.getElementById('amendmentClaimDate').value;
 
-    const data = {
-        bgNumber,
-        amendmentValidityDate,
-        amendmentClaimDate
-    };
+const data = {
+    bgNumber,
+    amendmentValidityDate,
+    amendmentClaimDate
+};
 
-    fetch('http://localhost:8086/api/bg/updateBgAmendment', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to update amendment');
-        }
-        return response.text();   // <-- Handle plain text response
-    })
-    .then(result => {
-        alert(result);  // Display the "Updated Successfully" message
-    })
-    .catch(error => {
-        alert('Error updating amendment');
-        console.error(error);
-    });
+fetch('http://localhost:8086/api/bg/updateBgAmendment', {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Failed to update amendment');
+    }
+    return response.text();   // <-- Handle plain text response
+})
+.then(result => {
+    alert(result);  // Display the "Updated Successfully" message
+})
+.catch(error => {
+    alert('Error updating amendment');
+    console.error(error);
+});
 });
 </script>
 

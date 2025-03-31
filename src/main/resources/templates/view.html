@@ -176,7 +176,7 @@
 
     <form id="searchForm" onsubmit="event.preventDefault(); fetchBankGuarantee();">
         <label for="bgNumber">Enter BG Number:</label>
-        <input type="text" id="bgNumber" name="bgNumber" required>
+        <input type="text" id="bgNumber" name="bgNumber" required oninput = "convertToUpperCase(this)">
 
         <div class="btn-container">
             <button type="submit" class="btn">Search</button>
@@ -225,75 +225,85 @@
 </div>
 
 <script>
-    // Function to fetch BG details
-    function fetchBankGuarantee() {
-        const bgNumber = document.getElementById("bgNumber").value;
-
-        fetch(`http://localhost:8086/api/bg/getBankGuarantee?bgNumber=${bgNumber}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('No Bank Guarantee found');
-                }
-                return response.json();
-            })
-            .then(data => {
-                displayBankGuarantee(data);
-            })
-            .catch(error => {
-                showError(error.message);
-            });
+    //Automatically convert input to uppercase in real-time
+    function convertToUpperCase(input) {
+    input.value = input.value.toUpperCase();
     }
 
-    // Function to display BG details in the table
-    function displayBankGuarantee(data) {
-        const resultContainer = document.getElementById("result-container");
-        const tableBody = document.querySelector("#bgTable tbody");
-        const errorMessage = document.getElementById("error");
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('bgNumber').addEventListener('input', function () {
+         this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+       });
+    });
+// Function to fetch BG details
+function fetchBankGuarantee() {
+    const bgNumber = document.getElementById("bgNumber").value.trim.toUpperCase();
 
-        // Clear previous data
-        tableBody.innerHTML = '';
-        errorMessage.style.display = 'none';
+    fetch(`http://localhost:8086/api/bg/getBankGuarantee?bgNumber=${bgNumber}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No Bank Guarantee found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayBankGuarantee(data);
+        })
+        .catch(error => {
+            showError(error.message);
+        });
+}
 
-        if (data) {
-            const row = `
-                <tr>
-                    <td>${data.serialNumber}</td>
-                    <td>${data.entryDate}</td>
-                    <td>${data.bgNumber}</td>
-                    <td>${data.bgDate}</td>
-                    <td>${data.typeOfBg}</td>
-                    <td>${data.vendor}</td>
-                    <td>${data.poWoNumber}</td>
-                    <td>${data.poWoDate}</td>
-                    <td>${data.natureOfSupply}</td>
-                    <td>${data.currency}</td>
-                    <td>${data.amount}</td>
-                    <td>${data.bankName}</td>
-                    <td>${data.validityDate}</td>
-                    <td>${data.claimDate}</td>
-                    <td>${data.receivedDate}</td>
-                    <td>${data.receivedFromDept}</td>
-                    <td>${data.status}</td>
-                </tr>
-            `;
-            tableBody.innerHTML = row;
-            resultContainer.style.display = "block";
-        } else {
-            showError("No Bank Guarantee found");
-        }
-    }
+// Function to display BG details in the table
+function displayBankGuarantee(data) {
+    const resultContainer = document.getElementById("result-container");
+    const tableBody = document.querySelector("#bgTable tbody");
+    const errorMessage = document.getElementById("error");
 
-    // Function to show error message
-    function showError(message) {
-        const errorMessage = document.getElementById("error");
-        errorMessage.textContent = message;
-        errorMessage.style.display = "block";
+    // Clear previous data
+    tableBody.innerHTML = '';
+    errorMessage.style.display = 'none';
+
+    if (data) {
+        const row = `
+            <tr>
+                <td>${data.serialNumber}</td>
+                <td>${data.entryDate}</td>
+                <td>${data.bgNumber}</td>
+                <td>${data.bgDate}</td>
+                <td>${data.typeOfBg}</td>
+                <td>${data.vendor}</td>
+                <td>${data.poWoNumber}</td>
+                <td>${data.poWoDate}</td>
+                <td>${data.natureOfSupply}</td>
+                <td>${data.currency}</td>
+                <td>${data.amount}</td>
+                <td>${data.bankName}</td>
+                <td>${data.validityDate}</td>
+                <td>${data.claimDate}</td>
+                <td>${data.receivedDate}</td>
+                <td>${data.receivedFromDept}</td>
+                <td>${data.status}</td>
+            </tr>
+        `;
+        tableBody.innerHTML = row;
+        resultContainer.style.display = "block";
+    } else {
+        showError("No Bank Guarantee found");
     }
-    //Function to download the Excel file
-    function downloadExcel() {
-        const url = 'http://localhost:8086/api/bg/downLoadReport';
-        window.location.href = url;  // Trigger the download
-    }
+}
+
+// Function to show error message
+function showError(message) {
+    const errorMessage = document.getElementById("error");
+    errorMessage.textContent = message;
+    errorMessage.style.display = "block";
+}
+//Function to download the Excel file
+function downloadExcel() {
+    const url = 'http://localhost:8086/api/bg/downLoadReport';
+    window.location.href = url;  // Trigger the download
+}
 </script>
 
 </body>
