@@ -24,19 +24,16 @@ public class BankGuaranteeService {
                 .typeOfBg(dto.getTypeOfBg())
                 .vendor(dto.getVendor())
                 .poWoNumber(dto.getPoWoNumber())
+                .poWoDate(dto.getPoWoDate())
                 .natureOfSupply(dto.getNatureOfSupply())
                 .currency(dto.getCurrency())
                 .amount(dto.getAmount())
                 .bankName(dto.getBankName())
                 .validityDate(dto.getValidityDate())
                 .claimDate(dto.getClaimDate())
-                .amendmentValidityDate(dto.getAmendmentValidityDate())
-                .amendmentClaimDate(dto.getAmendmentClaimDate())
                 .receivedDate(dto.getReceivedDate())
                 .receivedFromDept(dto.getReceivedFromDept())
-                .returnedDate(dto.getReturnedDate())
-                .returnedToDept(dto.getReturnedToDept())
-                .status(dto.getStatus())
+                .status("OPEN")
                 .build();
         return bankGuranteeRepo.save(bankGuarantee);
     }

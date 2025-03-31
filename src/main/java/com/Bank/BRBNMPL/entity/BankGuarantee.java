@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class BankGuarantee {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "serial_number", nullable = false, unique = true)
     private Long serialNumber;
 
     @Column(name = "entry_date")
@@ -38,6 +38,9 @@ public class BankGuarantee {
 
     @Column(name = "po_wo_number", nullable = false, unique = true)
     private String poWoNumber;
+
+    @Column(name = "po_wo_date")
+    private LocalDate poWoDate;
 
     @Column(name = "nature_of_supply")
     private String natureOfSupply;

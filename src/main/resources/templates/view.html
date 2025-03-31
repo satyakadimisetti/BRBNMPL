@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Bank Guarantee</title>
+    <link rel="shortcut icon" href="https://www.efundzz.com/favicon.ico">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ff8c00;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: #ff8000;
+            color: #fff;
+            border: 1px solid red;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 15%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #ff6000;
+        }
+
+        .btn-back {
+            background: #007bff;
+            color: #fff;
+            border: 1px solid blue;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 15%;
+            margin-left: 10px;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background: #0056b3;
+        }
+
+        /* Scrollable table container */
+        .table-wrapper {
+            max-width: 100%;
+            overflow-x: auto; /* Add horizontal scroll if needed */
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1200px;  /* Ensures the table fits even with many columns */
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Responsive styling */
+        @media screen and (max-width: 768px) {
+            .btn {
+                width: 45%;
+            }
+
+            .btn-back {
+                width: 45%;
+            }
+
+            input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>View Bank Guarantee</h1>
+
+    <form id="searchForm" onsubmit="event.preventDefault(); fetchBankGuarantee();">
+        <label for="bgNumber">Enter BG Number:</label>
+        <input type="text" id="bgNumber" name="bgNumber" required>
+
+        <div class="btn-container">
+            <button type="submit" class="btn">Search</button>
+            <a href="/brbnmpl" class="btn btn-back">Back</a>
+        </div>
+    </form>
+
+    <div id="result-container" style="display: none;">
+        <h2>Bank Guarantee Details</h2>
+
+        <!-- Scrollable Table Wrapper -->
+        <div class="table-wrapper">
+            <table id="bgTable">
+                <thead>
+                <tr>
+                    <th>S No</th>
+                    <th>Entry Date</th>
+                    <th>BG Number</th>
+                    <th>BG Date</th>
+                    <th>Type Of BG</th>
+                    <th>Vendor</th>
+                    <th>PO/WO Number</th>
+                    <th>PO/WO Date</th>
+                    <th>Nature Of Supply</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Bank Name</th>
+                    <th>Validity Date</th>
+                    <th>Claim Date</th>
+                    <th>Received Date</th>
+                    <th>Received From Dept.</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <p id="error" class="error" style="display: none;"></p>
+    </div>
+
+</div>
+
+<script>
+    // Function to fetch BG details
+    function fetchBankGuarantee() {
+        const bgNumber = document.getElementById("bgNumber").value;
+
+        fetch(`http://localhost:8086/api/bg/getBankGuarantee?bgNumber=${bgNumber}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('No Bank Guarantee found');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayBankGuarantee(data);
+            })
+            .catch(error => {
+                showError(error.message);
+            });
+    }
+
+    // Function to display BG details in the table
+    function displayBankGuarantee(data) {
+        const resultContainer = document.getElementById("result-container");
+        const tableBody = document.querySelector("#bgTable tbody");
+        const errorMessage = document.getElementById("error");
+
+        // Clear previous data
+        tableBody.innerHTML = '';
+        errorMessage.style.display = 'none';
+
+        if (data) {
+            const row = `
+                <tr>
+                    <td>${data.serialNumber}</td>
+                    <td>${data.entryDate}</td>
+                    <td>${data.bgNumber}</td>
+                    <td>${data.bgDate}</td>
+                    <td>${data.typeOfBg}</td>
+                    <td>${data.vendor}</td>
+                    <td>${data.poWoNumber}</td>
+                    <td>${data.poWoDate}</td>
+                    <td>${data.natureOfSupply}</td>
+                    <td>${data.currency}</td>
+                    <td>${data.amount}</td>
+                    <td>${data.bankName}</td>
+                    <td>${data.validityDate}</td>
+                    <td>${data.claimDate}</td>
+                    <td>${data.receivedDate}</td>
+                    <td>${data.receivedFromDept}</td>
+                    <td>${data.status}</td>
+                </tr>
+            `;
+            tableBody.innerHTML = row;
+            resultContainer.style.display = "block";
+        } else {
+            showError("No Bank Guarantee found");
+        }
+    }
+
+    // Function to show error message
+    function showError(message) {
+        const errorMessage = document.getElementById("error");
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
