@@ -19,10 +19,7 @@ public class BankGuarantee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "serial_number", nullable = false, unique = true)
-    private String serialNumber;
+    private Long serialNumber;
 
     @Column(name = "entry_date")
     private LocalDate entryDate;

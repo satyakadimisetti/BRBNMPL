@@ -8,8 +8,6 @@ import java.time.LocalDate;
 @Builder
 @Data
 public class BankGuaranteeRequestDto {
-    
-    private String serialNumber;
     private LocalDate entryDate;
     private String bgNumber;
     private LocalDate bgDate;

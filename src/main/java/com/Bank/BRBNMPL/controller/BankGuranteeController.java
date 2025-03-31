@@ -1,6 +1,7 @@
 package com.Bank.BRBNMPL.controller;
 import com.Bank.BRBNMPL.dto.BankGuaranteeRequestDto;
 import com.Bank.BRBNMPL.dto.BankGuranteeform1Response;
+import com.Bank.BRBNMPL.dto.BgAmendmentRequest;
 import com.Bank.BRBNMPL.entity.BankGuarantee;
 import com.Bank.BRBNMPL.service.BankGuaranteeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ public class BankGuranteeController {
     @GetMapping("/getBankGurantee")
     public BankGuarantee getbankGuranteeByBgNumber(@RequestParam String bgNumber ){
       return bankGuaranteeService.getBankGuranteeDetails(bgNumber);
+    }
+
+    @PutMapping("/bGAmendmentForm")
+    public ResponseEntity<?> updateBgAmendmentForm(@RequestBody BgAmendmentRequest bgAmendmentRequest){
+     String response= bankGuaranteeService.updateAmendmentDates(bgAmendmentRequest);
+     return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 }
