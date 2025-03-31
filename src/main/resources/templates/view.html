@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>View Bank Guarantee</title>
-    <link rel="shortcut icon" href="https://www.efundzz.com/favicon.ico">
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: rgb(255, 245, 238);
             margin: 0;
             padding: 20px;
         }
@@ -20,6 +19,7 @@
             background: #fff;
             padding: 20px;
             border-radius: 8px;
+            border: 1px solid rgb(255, 128, 0);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
@@ -27,6 +27,30 @@
         h1 {
             color: #ff8c00;
             text-align: center;
+        }
+
+         .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            background: #218838;
+        }
+
+        .download-btn i {
+            margin-right: 8px;
         }
 
         label {
@@ -37,10 +61,26 @@
 
         input {
             width: 50%;
-            padding: 8px;
-            margin-bottom: 20px;
+            max-width: 400px;  /* Restrict the width */
+            padding: 10px;
+            font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            color: #333;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        select:hover, input:hover {
+            border-color: #007bff;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
         }
 
         .btn-container {
@@ -141,6 +181,10 @@
         <div class="btn-container">
             <button type="submit" class="btn">Search</button>
             <a href="/brbnmpl" class="btn btn-back">Back</a>
+<!--            &lt;!&ndash; Download Excel button &ndash;&gt;-->
+<!--            <button type="button" class="download-btn" onclick="downloadExcel()">-->
+<!--                <i class="fas fa-download"></i> Download Excel-->
+<!--            </button>-->
         </div>
     </form>
 
@@ -244,6 +288,11 @@
         const errorMessage = document.getElementById("error");
         errorMessage.textContent = message;
         errorMessage.style.display = "block";
+    }
+    //Function to download the Excel file
+    function downloadExcel() {
+        const url = 'http://localhost:8086/api/bg/downLoadReport';
+        window.location.href = url;  // Trigger the download
     }
 </script>
 

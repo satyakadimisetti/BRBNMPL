@@ -19,6 +19,8 @@ public class UIController {
     public String getBgDetails() {return "view";}
     @GetMapping("/bg-edit-options")
     public String getEditFunctionalities() {return "edit-options";}
-    @GetMapping("")
+    @GetMapping("/bg-amendment")
     public String getAmendmentForm(){return "amendment";}
+    @GetMapping("/bg-closure")
+    public String getClosureForm(){return "closure";}
 }

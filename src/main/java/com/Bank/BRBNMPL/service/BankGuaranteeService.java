@@ -53,7 +53,7 @@ public class BankGuaranteeService {
             throw new RuntimeException("Bank Guarantee not found with bgNumber: " + bgAmendmentRequest.getBgNumber());
         }
         bankGuranteeRepo.updateAmendmentDates(bgAmendmentRequest.getBgNumber(), bgAmendmentRequest.getAmendmentValidityDate(), bgAmendmentRequest.getAmendmentClaimDate());
-        return "upDated successfully";
+        return "Updated successfully";
     }
 
     @Transactional
@@ -63,7 +63,7 @@ public class BankGuaranteeService {
             throw new RuntimeException("Bank Guarantee not found with bgNumber: " + bgClosureRequest.getBgNumber());
         }
         bankGuranteeRepo.bgClosureUpdate(bgClosureRequest.getBgNumber(), bgClosureRequest.getReturnedDate(),bgClosureRequest.getReturnedToDept(),bgClosureRequest.getStatus());
-        return "upDated successfully";
+        return "Updated successfully";
     }
 
    public List<BankGuarantee> getBankGuranteeList(ReportRequest reportRequest){

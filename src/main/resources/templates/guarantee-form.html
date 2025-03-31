@@ -27,8 +27,9 @@
         }
 
         .form-div {
-            padding: 6px;
-            margin: 0;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
         .form-left, .form-right {
@@ -76,6 +77,30 @@
             width: 5%;
             margin-top: 15px;
             margin-left: 10px;
+        }
+
+        select, input{
+            width: 50%;
+            max-width: 400px;  /* Restrict the width */
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            color: #333;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        select:hover, input:hover {
+            border-color: #007bff;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
         }
 
         .btn-back:hover {
@@ -209,7 +234,44 @@
         <div class="form-div">
             <div class="form-left">
                 <label>Bank Name:</label>
-                <label for="bankName"></label><input type="text" id="bankName" required>
+                <label for="bankName"></label><select id="bankName" required>
+                <option value="">Select a bank</option>
+                <option value="Axis Bank Ltd.">Axis Bank Ltd.</option>
+                <option value="Bandhan Bank">Bandhan Bank</option>
+                <option value="Bank of Baroda (Including Vijaya Bank and Dena Bank)">Bank of Baroda (Including Vijaya Bank and Dena Bank)</option>
+                <option value="Bank of India">Bank of India</option>
+                <option value="Bank of Maharashtra">Bank of Maharashtra</option>
+                <option value="Canara Bank (Including Syndicate Bank)">Canara Bank (Including Syndicate Bank)</option>
+                <option value="Catholic Syrian Bank Ltd.">Catholic Syrian Bank Ltd.</option>
+                <option value="Central Bank of India">Central Bank of India</option>
+                <option value="City Union Bank Ltd.">City Union Bank Ltd.</option>
+                <option value="Development Credit Bank Ltd.">Development Credit Bank Ltd.</option>
+                <option value="Dhanlaxmi Bank Ltd.">Dhanlaxmi Bank Ltd.</option>
+                <option value="Federal Bank Ltd.">Federal Bank Ltd.</option>
+                <option value="HDFC Bank Ltd.">HDFC Bank Ltd.</option>
+                <option value="ICICI Bank Ltd.">ICICI Bank Ltd.</option>
+                <option value="IDBI Bank Ltd.">IDBI Bank Ltd.</option>
+                <option value="IDFC Bank Ltd.">IDFC Bank Ltd.</option>
+                <option value="Indian Bank (Including Allahabad Bank)">Indian Bank (Including Allahabad Bank)</option>
+                <option value="Indian Overseas Bank">Indian Overseas Bank</option>
+                <option value="IndusInd Bank Ltd.">IndusInd Bank Ltd.</option>
+                <option value="Jammu & Kashmir Bank Ltd.">Jammu & Kashmir Bank Ltd.</option>
+                <option value="Karnataka Bank Ltd.">Karnataka Bank Ltd.</option>
+                <option value="Karur Vysya Bank Ltd.">Karur Vysya Bank Ltd.</option>
+                <option value="Kotak Mahindra Bank Ltd.">Kotak Mahindra Bank Ltd.</option>
+                <option value="Lakshmi Vilas Bank Ltd.">Lakshmi Vilas Bank Ltd.</option>
+                <option value="Nainital Bank Ltd.">Nainital Bank Ltd.</option>
+                <option value="Punjab & Sind Bank">Punjab & Sind Bank</option>
+                <option value="Punjab National Bank (including Oriental Bank of Commerce and United Bank of India)">Punjab National Bank (including Oriental Bank of Commerce and United Bank of India)</option>
+                <option value="Ratnakar Bank Ltd.">Ratnakar Bank Ltd.</option>
+                <option value="South Indian Bank Ltd.">South Indian Bank Ltd.</option>
+                <option value="State Bank of India">State Bank of India</option>
+                <option value="Tamilnad Mercantile Bank Ltd.">Tamilnad Mercantile Bank Ltd.</option>
+                <option value="UCO Bank">UCO Bank</option>
+                <option value="Union Bank of India (including Andhra Bank and Corporation Bank)">Union Bank of India (including Andhra Bank and Corporation Bank)</option>
+                <option value="Yes Bank Ltd.">Yes Bank Ltd.</option>
+                <option value="Others">Others</option>
+            </select>
             </div>
             <div class="form-right">
                 <label>Amount:</label>

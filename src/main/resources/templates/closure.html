@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BG Closure Form</title>
+
+    <style>
+        body {
+           font-family: Arial, sans-serif;
+           background-color: rgb(255, 245, 238);
+           margin: 0;
+           padding: 20px;
+       }
+
+       h1 {
+            color: rgb(255, 128, 0);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+       .container {
+           max-width: 800px;
+           margin: 0 auto;
+           background: #fff;
+           padding: 30px;
+           border: 1px solid rgb(255, 128, 0);
+           border-radius: 10px;
+           box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+       }
+
+        select, input{
+            width: 50%;
+            max-width: 400px;  /* Restrict the width */
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            color: #333;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        select:hover, input:hover {
+            border-color: #007bff;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+
+       label {
+           font-weight: bold;
+       }
+
+       .btn {
+           background: #ff8000;
+           color: #fff;
+           padding: 10px 20px;
+           border: 1px solid red;
+           border-radius: 6px;
+           cursor: pointer;
+           transition: 0.3s;
+           width: 10%;
+           margin-top: 15px;
+           margin-left: 10px;
+           font-size: 16px;
+       }
+
+       .btn:hover {
+           background: #ff9900;
+       }
+
+       .btn-back {
+           background-color: #007bff;
+           color: #fff;
+           border: 1px solid blue;
+           border-radius: 6px;
+           padding: 10px 20px;
+           font-size: 16px;
+           cursor: pointer;
+           transition: 0.3s;
+           width: 5%;
+           margin-top: 15px;
+           margin-left: 10px;
+       }
+
+       .btn-back:hover {
+           background-color: #0056b3;
+       }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>BG Closure Form</h1>
+    <form id="closureForm">
+        <div class="form-div">
+            <div class="form-left">
+                <label>BG Number:</label>
+            </div>
+            <div class="form-right">
+                <label for="bgNumber"></label><input type="text" id="bgNumber" required>
+            </div>
+            <div class="cls"></div>
+        </div>
+        <div class="form-div">
+            <div class="form-left">
+                <label>Returned Date:</label>
+            </div>
+            <div class="form-right">
+                <label for="returnedDate"></label><input type="date" id="returnedDate" required>
+            </div>
+            <div class="cls"></div>
+        </div>
+
+        <div class="form-div">
+            <div class="form-left">
+                <label>Returned to Dept:</label>
+            </div>
+            <div class="form-right">
+                <label for="returnedToDept"></label><input type="date" id="returnedToDept" required>
+            </div>
+            <div class="cls"></div>
+        </div>
+
+        <div class="form-div">
+            <div class="form-left">
+                <label>Status:</label>
+            </div>
+            <div class="form-right">
+                <label for="status"></label><select id="status" required>
+                <option value="">Select One</option>
+                <option value="OPEN">OPEN</option>
+                <option value="CLOSE">CLOSE</option>
+            </select>
+            </div>
+            <div class="cls"></div>
+        </div>
+        <button type="submit" class="btn">Update</button>
+        <a href="/bg-edit-options" class="btn btn-back">Back</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('bgNumber').addEventListener('input', function () {
+         this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+       });
+    });
+
+document.getElementById('closureForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const bgNumber = document.getElementById('bgNumber').value;
+    const returnedDate = document.getElementById('returnedDate').value;
+    const returnedToDept = document.getElementById('returnedToDept').value;
+    const status = document.getElementById('status').value;
+
+    const data = {
+        bgNumber,
+        returnedDate,
+        returnedToDept,
+        status
+    };
+
+    fetch('http://localhost:8086/api/bg/updateBgClosure', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update Closure');
+        }
+        return response.text();   // <-- Handle plain text response
+    })
+    .then(result => {
+        alert(result);  // Display the "Updated Successfully" message
+    })
+    .catch(error => {
+        alert('Error updating Closure');
+        console.error(error);
+    });
+});
+</script>
+
+</body>
+</html>
