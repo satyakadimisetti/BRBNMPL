@@ -1,5 +1,4 @@
 package com.Bank.BRBNMPL.service;
-
 import com.Bank.BRBNMPL.dto.BankGuaranteeRequestDto;
 import com.Bank.BRBNMPL.entity.BankGuarantee;
 import com.Bank.BRBNMPL.repo.BankGuranteeRepo;
@@ -34,7 +33,12 @@ public class BankGuaranteeService {
                 .returnedToDept(dto.getReturnedToDept())
                 .status(dto.getStatus())
                 .build();
-
         return bankGuranteeRepo.save(bankGuarantee);
     }
+
+    public BankGuarantee getBankGuranteeDetails  (String bgNumber){
+        BankGuarantee bankGuarantee=bankGuranteeRepo.findByBgNumber(bgNumber).get();
+        return bankGuarantee;
+    }
+
 }
