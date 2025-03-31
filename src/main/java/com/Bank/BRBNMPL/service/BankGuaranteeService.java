@@ -2,6 +2,7 @@ package com.Bank.BRBNMPL.service;
 import com.Bank.BRBNMPL.dto.BGClosureRequest;
 import com.Bank.BRBNMPL.dto.BankGuaranteeRequestDto;
 import com.Bank.BRBNMPL.dto.BgAmendmentRequest;
+import com.Bank.BRBNMPL.dto.ReportRequest;
 import com.Bank.BRBNMPL.entity.BankGuarantee;
 import com.Bank.BRBNMPL.repo.BankGuranteeRepo;
 import jakarta.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,5 +65,10 @@ public class BankGuaranteeService {
         bankGuranteeRepo.bgClosureUpdate(bgClosureRequest.getBgNumber(), bgClosureRequest.getReturnedDate(),bgClosureRequest.getReturnedToDept(),bgClosureRequest.getStatus());
         return "upDated successfully";
     }
+
+   public List<BankGuarantee> getBankGuranteeList(ReportRequest reportRequest){
+     return bankGuranteeRepo.findByStatusAndEntryDateBeforeOrEqual(reportRequest.getStatus(),reportRequest.getEntryDate());
+   }
+
 
 }
