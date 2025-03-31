@@ -1,4 +1,5 @@
 package com.Bank.BRBNMPL.service;
+import com.Bank.BRBNMPL.dto.BGClosureRequest;
 import com.Bank.BRBNMPL.dto.BankGuaranteeRequestDto;
 import com.Bank.BRBNMPL.dto.BgAmendmentRequest;
 import com.Bank.BRBNMPL.entity.BankGuarantee;
@@ -50,6 +51,16 @@ public class BankGuaranteeService {
             throw new RuntimeException("Bank Guarantee not found with bgNumber: " + bgAmendmentRequest.getBgNumber());
         }
         bankGuranteeRepo.updateAmendmentDates(bgAmendmentRequest.getBgNumber(), bgAmendmentRequest.getAmendmentValidityDate(), bgAmendmentRequest.getAmendmentClaimDate());
+        return "upDated successfully";
+    }
+
+    @Transactional
+    public String updateBgClosure(BGClosureRequest bgClosureRequest) {
+        Optional<BankGuarantee> existingBG = bankGuranteeRepo.findByBgNumber(bgClosureRequest.getBgNumber());
+        if (!existingBG.isPresent()) {
+            throw new RuntimeException("Bank Guarantee not found with bgNumber: " + bgClosureRequest.getBgNumber());
+        }
+        bankGuranteeRepo.bgClosureUpdate(bgClosureRequest.getBgNumber(), bgClosureRequest.getReturnedDate(),bgClosureRequest.getReturnedToDept(),bgClosureRequest.getStatus());
         return "upDated successfully";
     }
 

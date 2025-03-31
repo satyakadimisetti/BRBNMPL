@@ -1,12 +1,11 @@
 package com.Bank.BRBNMPL.controller;
+import com.Bank.BRBNMPL.dto.BGClosureRequest;
 import com.Bank.BRBNMPL.dto.BankGuaranteeRequestDto;
 import com.Bank.BRBNMPL.dto.BankGuranteeform1Response;
 import com.Bank.BRBNMPL.dto.BgAmendmentRequest;
 import com.Bank.BRBNMPL.entity.BankGuarantee;
 import com.Bank.BRBNMPL.service.BankGuaranteeService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +30,16 @@ public class BankGuranteeController {
       return bankGuaranteeService.getBankGuranteeDetails(bgNumber);
     }
 
-    @PutMapping("/bgAmendmentForm")
+    @PutMapping("/updateBgAmendment")
     public ResponseEntity<?> updateBgAmendmentForm(@RequestBody BgAmendmentRequest bgAmendmentRequest){
      String response= bankGuaranteeService.updateAmendmentDates(bgAmendmentRequest);
      return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PutMapping("/updateBgClosure")
+    public ResponseEntity<?> upDateBGClosure(@RequestBody BGClosureRequest bgClosureRequest){
+   String response=bankGuaranteeService.updateBgClosure(bgClosureRequest);
+   return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 }
